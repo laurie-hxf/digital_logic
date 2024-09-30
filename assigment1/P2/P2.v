@@ -1,4 +1,4 @@
-module P2(
+module lab_a1_p2(
     input A,
     input B,
     output Y
@@ -15,7 +15,7 @@ and a2(and2,nota,notb);
 
 or o1(or1,and1,and2);
 
-not n3(Y,o1);
+not n3(Y,or1);
 endmodule
 
 module P2_demo ();
