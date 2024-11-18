@@ -1,0 +1,108 @@
+$date
+	Tue Oct 29 21:09:38 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module test $end
+$var wire 1 ! y_tb $end
+$var reg 1 " a_tb $end
+$var reg 1 # b_tb $end
+$var reg 1 $ c_tb $end
+$var reg 1 % d_tb $end
+$scope module ux $end
+$var wire 1 " A $end
+$var wire 1 # B $end
+$var wire 1 $ C $end
+$var wire 1 % D $end
+$var wire 1 ! Y $end
+$scope module ux $end
+$var wire 1 & D0 $end
+$var wire 1 ' D1 $end
+$var wire 1 % D2 $end
+$var wire 1 % D3 $end
+$var wire 1 ( D4 $end
+$var wire 1 % D5 $end
+$var wire 1 % D6 $end
+$var wire 1 % D7 $end
+$var wire 1 $ S0 $end
+$var wire 1 # S1 $end
+$var wire 1 " S2 $end
+$var reg 1 ! Y $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+0(
+0'
+1&
+0%
+0$
+0#
+0"
+1!
+$end
+#10
+1%
+#20
+0!
+1$
+0%
+#30
+1%
+#40
+1#
+0$
+0%
+#50
+1!
+1%
+#60
+0!
+1$
+0%
+#70
+1!
+1%
+#80
+0!
+1"
+0#
+0$
+0%
+#90
+1%
+#100
+1$
+0%
+#110
+1!
+1%
+#120
+0!
+1#
+0$
+0%
+#130
+1!
+1%
+#140
+0!
+1$
+0%
+#150
+1!
+1%
+#160
+0"
+0#
+0$
+0%
