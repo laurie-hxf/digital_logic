@@ -1,7 +1,7 @@
 module module1(
     output reg[7:0] mode,
     output reg[7:0] one,
-    output tubsel_mode,
+    output tubsel_mode,//选择哪个数码管亮
     output tubsel_one
     );
     assign tubsel_mode=1'b1;
