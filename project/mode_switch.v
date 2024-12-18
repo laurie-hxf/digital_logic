@@ -2,7 +2,7 @@ module mode_switch(
     input clk,            // 时钟信号
     input rst_n,          // 复位信号，低有效
     input first,second,third,clean_button,
-    output reg mode_output,   // 测试用的灯
+    // output reg mode_output,   // 测试用的灯
 
     output [7:0] mode,
     output [7:0] mode_name,
@@ -10,11 +10,11 @@ module mode_switch(
     
     output [1:0]number_select,
     
-    output [2:0]clean_select
+    output [2:0]clean_select,
     
 //    input [31:0]work_time_limit,   //工作时间上限
-//    output reg [31:0] work_time,  //工作时间
-//    output reg reminder               //智能提醒，如果工作时间过长就提醒
+//    output reg [31:0] work_time_out,  //工作时间
+    output reg reminder               //智能提醒，如果工作时间过长就提醒
 
 );
     wire[7:0] mode1 , mode_name1;
@@ -69,24 +69,39 @@ module mode_switch(
      parameter S4=3'b100;
 
 
-//本代码没有测试根据输入工作时长来判断
-//  parameter defult_work_time_limit=16'd36000; //默认工作时长，10小时，36000秒
-     
+
+  parameter defult_work_time_limit=16'd36000; //默认工作时长，10小时，36000秒
+  reg [31:0]work_time=32'd0;   
+  reg judge=1'b1;                             //当触发智能提醒的时候让灯一直亮
 //此处用来增加工作时间，这里是分频器生成1s    
-//     initial reminder=1'b0;
-//      reg [26:0] counter;  // 27 位计数器可以表示到 100,000,000（2^27 > 100,000,000）
-//      always @(posedge clk) begin
-//        if (counter == 27'd99_999_999) begin
-//            work_time<=work_time+1;         //工作时间
-//            if(work_time==defult_work_time_limit)begin
-//                reminder<=1'b1;
-//            end
-//            else begin
-//                reminder<=1'b0;
-//            end
-//            counter <= 27'b0;
-//        end
-//      end
+     initial reminder=1'b0;
+      reg [26:0] counter;  // 27 位计数器可以表示到 100,000,000（2^27 > 100,000,000）
+      always @(posedge clk) begin
+        if (counter == 27'd99_999_999) begin
+            work_time<=work_time+1;         //工作时间
+            if(work_time==defult_work_time_limit)begin
+                reminder<=1'b1;
+                judge<=1'b0;
+            end
+            else begin
+                if(judge)begin
+                    reminder<=1'b0;
+                end
+                else begin
+                    reminder<=reminder;
+                end
+            end
+            counter <= 27'b0;
+        end
+        else begin
+            case(state)
+                S1:begin counter<=counter+1;end
+                S2:begin counter<=counter+1;end
+                S3:begin counter<=counter+1;end
+                default:begin counter<=counter;end
+        endcase
+        end
+      end
      
      
     reg jumpout=1'b0;
@@ -120,7 +135,6 @@ module mode_switch(
                     second_enable<=1'b0;
                     third_enable<=1'b0;
                     clean_enable<=1'b0;
-//                    counter<=counter+1;                          //用于改变工作时间
                      if(second_stable)begin state<=S2;end
                     else begin state<=state ;end                  //一档模式下只可以切换到二档
                   end
@@ -129,7 +143,6 @@ module mode_switch(
                     second_enable<=1'b1;
                     third_enable<=1'b0;
                     clean_enable<=1'b0;
-//                    counter<=counter+1;                        //用于改变工作时间
                     if(first_stable)begin state<=S1; end
                     else begin state<=state ;end                 //二档模式下只可以切换到一档
                   end
@@ -138,9 +151,8 @@ module mode_switch(
                     second_enable<=1'b0;
                     third_enable<=1'b1;
                     clean_enable<=1'b0;
-//                    counter<=counter+1;                       //用于改变工作时间
                     if(jumpout_out)begin state<=S2;
-                        mode_output<=1'b1;
+                        // mode_output<=1'b1;
                         jumpout<=1'b1;
                     end                             //三档模式只有等待60秒之后回到二档
                     else begin state<=state ;end
