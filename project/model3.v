@@ -136,8 +136,8 @@ module module3(
             end
         end
         else begin
-        seg_en=2'b00;
-        seg_out=8'b0000_0000;
+         seg_en=2'b00;
+         seg_out=8'b0000_0000;
         end
     end
 endmodule

@@ -3,9 +3,9 @@ module clean(
     input rst_n,          // 复位信号，低有效
     input enable,
     output reg[7:0] seg,
-    output reg[2:0] an       // 数码管选择信号
-//    input jumpout,
-//    output reg jumpout_out=1'b0
+    output reg[2:0] an,       // 数码管选择信号
+    input jumpout,
+    output reg jumpout_out=1'b0
 );
 
     reg [27:0] clk_div;    // 用于时钟分频，100 MHz -> 1 Hz
@@ -39,8 +39,10 @@ module clean(
         else begin
             if (clk_div == 27'd99999999) begin
                 if (sec == 8'd0) begin
-                    if (min == 4'd0)
+                    if (min == 4'd0)begin
                         sec <= 8'd0;  // 倒计时结束
+                        jumpout_out <=1'b1;
+                    end
                     else begin
                         min <= min - 1;
                         sec <= 8'd59;
